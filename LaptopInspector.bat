@@ -364,18 +364,17 @@ function Show-PixelTest {
     $colors = @("Red","Green","Blue","White","Black")
     $script:pxIdx = 0
     $pw.Add_MouseDown({
-        $script:pxIdx++
-        if ($script:pxIdx -ge $colors.Count) { $pw.Close(); return }
-        $pw.Background = (New-Object System.Windows.Media.BrushConverter).ConvertFromString($colors[$script:pxIdx])
-    })
-    $pw.Add_KeyDown({
-        if ($_.Key -eq "Escape") { $pw.Close(); return }
-        $script:pxIdx++
-        if ($script:pxIdx -ge $colors.Count) { $pw.Close(); return }
-        $pw.Background = (New-Object System.Windows.Media.BrushConverter).ConvertFromString($colors[$script:pxIdx])
-    })
-    $pw.ShowDialog() | Out-Null
-}
+    $pw.Background = (New-Object System.Windows.Media.BrushConverter).ConvertFromString($colors[$script:pxIdx])
+    $script:pxIdx++
+    if ($script:pxIdx -ge $colors.Count) { $pw.Close(); return }
+})
+
+$pw.Add_KeyDown({
+    if ($_.Key -eq "Escape") { $pw.Close(); return }
+    $pw.Background = (New-Object System.Windows.Media.BrushConverter).ConvertFromString($colors[$script:pxIdx])
+    $script:pxIdx++
+    if ($script:pxIdx -ge $colors.Count) { $pw.Close(); return }
+})
 
 # Button handlers
 $btnReport.Add_Click({ try { Invoke-Item $reportHtml } catch {} })
